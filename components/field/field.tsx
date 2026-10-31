@@ -202,8 +202,13 @@ export function Field({ days, stars }: Props) {
       lastMove = performance.now();
     };
     const onLeave = () => pointer.set(9, 9);
-    window.addEventListener("pointermove", onMove, { passive: true });
-    document.documentElement.addEventListener("pointerleave", onLeave);
+    // Only a real pointer stirs the field. On touch a tap would land as a
+    // pointer jump; there the field just follows the scroll.
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    if (fine) {
+      window.addEventListener("pointermove", onMove, { passive: true });
+      document.documentElement.addEventListener("pointerleave", onLeave);
+    }
 
     let frame = 0;
     let last = performance.now();
@@ -231,7 +236,7 @@ export function Field({ days, stars }: Props) {
       smoothPointer.lerp(pointer, 1 - Math.exp(-dt * 7));
       uniforms.uPointer.value.copy(smoothPointer);
       if (now - lastMove > 120) energy *= Math.exp(-dt * 1.6);
-      uniforms.uPointerPower.value = 0.35 + energy * 0.9;
+      uniforms.uPointerPower.value = fine ? 0.35 + energy * 0.9 : 0;
 
       // The whole field leans a little toward the pointer.
       const px = pointer.x > 5 ? 0 : pointer.x;

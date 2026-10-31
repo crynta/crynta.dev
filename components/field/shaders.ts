@@ -133,9 +133,16 @@ void main() {
   float size = mix(zA, zB, g);
 
   // The arc between shapes: out along the point's own direction, then home.
+  // Leaving or entering the galaxy, the points swirl instead, like a vortex
+  // winding down into the next shape.
   float travel = step(0.5, abs(uTo - uFrom));
+  float vortex = max(1.0 - step(0.5, abs(uFrom - 3.0)), 1.0 - step(0.5, abs(uTo - 3.0))) * travel;
+  float arc = sin(g * 3.14159);
+  float turn = arc * (1.1 + aRand.y * 0.8) * vortex;
+  float ct = cos(turn), st = sin(turn);
+  pos.xy = mat2(ct, st, -st, ct) * pos.xy;
   vec3 scatter = normalize(aRand.xyz - 0.5 + 1e-4) * (0.6 + aRand.w * 1.4);
-  pos += scatter * sin(g * 3.14159) * 0.9 * travel;
+  pos += scatter * arc * mix(0.9, 0.35, vortex) * travel;
   // A small drift, so nothing is ever perfectly still; the picture keeps its grid.
   float still = (uFrom > 4.5 ? 1.0 - g : 0.0) + (uTo > 4.5 ? g : 0.0);
   pos += 0.01 * (1.0 - still) * vec3(sin(uTime * 0.7 + aRand.y * 30.0), cos(uTime * 0.6 + aRand.z * 30.0), 0.0);

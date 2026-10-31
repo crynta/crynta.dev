@@ -24,21 +24,21 @@ export function Contact() {
   return (
     <Scene
       id="contact"
-      length={140}
+      length={220}
       marks={[
-        [0, "3 0.75"],
-        [0.4, "4 1"],
+        [0, "3 0.8"],
+        [0.62, "4 1"],
         [1, "4 1"],
       ]}
       innerClassName="flex flex-col justify-between px-5 pb-7 pt-28 md:px-10"
     >
       <div className="flex flex-1 items-center">
         <div className="w-full max-w-[600px]">
-          <p data-range="0.2,2" className="mb-6 flex items-center gap-2 font-mono text-[13px] text-faint">
+          <p data-range="0.46,2" className="mb-6 flex items-center gap-2 font-mono text-[13px] text-faint">
             <Mail className="size-4" />
             contact
           </p>
-          <div data-range="0.24,2" className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <div data-range="0.5,2" className="flex flex-wrap items-center gap-x-5 gap-y-3">
             <a
               href={`mailto:${site.email}`}
               className="text-[clamp(34px,4.6vw,68px)] font-semibold leading-none tracking-[-0.05em] transition-colors hover:text-white"
@@ -56,7 +56,7 @@ export function Contact() {
             </button>
           </div>
 
-          <ul data-range="0.3,2" className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <ul data-range="0.56,2" className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {links.map(({ label, handle, href, icon: I }) => (
               <li key={label}>
                 <a
@@ -80,7 +80,7 @@ export function Contact() {
         </div>
       </div>
 
-      <footer data-range="0.3,2" className="flex items-end justify-between font-mono text-[12px] text-faint">
+      <footer data-range="0.6,2" className="flex items-end justify-between font-mono text-[12px] text-faint">
         <span>© 2026 Crynta</span>
         <span>crynta.dev</span>
       </footer>
