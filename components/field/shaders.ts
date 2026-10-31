@@ -88,7 +88,7 @@ void stars(out vec3 p, out vec3 c, out float a, out float z) {
   c = mix(PAPER, SIGNAL, step(0.93, aRand.w) * 0.9);
   c = mix(c, vec3(1.0, 0.86, 0.72), core * 0.6);
   float twinkle = 0.5 + 0.5 * sin(uTime * (0.8 + aRand.z * 2.2) + aRand.y * 40.0);
-  a = aStarOn * mix(0.45, 1.0, twinkle) * mix(0.4, 1.0, uFit);
+  a = aStarOn * mix(0.45, 1.0, twinkle) * mix(0.24, 1.0, uFit);
 }
 
 void solo(out vec3 p, out vec3 c, out float a, out float z) {

@@ -3,7 +3,7 @@ import { Bolt, Calendar, Commit as CommitIcon, Flame, GitHub } from "../icons";
 import { Scene } from "../scene";
 import { fmt } from "./parts";
 
-type Props = { days: number[]; contributions: number; commits: Commit[] };
+type Props = { days: number[]; contributions: number; commits: Commit[]; followers: number };
 
 function measure(days: number[]) {
   let active = 0, streak = 0, best = 0, busiest = 0;
@@ -21,7 +21,7 @@ function measure(days: number[]) {
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 
 /** The last year on GitHub. The field draws it as a skyline, a column per week. */
-export function Activity({ days, contributions, commits }: Props) {
+export function Activity({ days, contributions, commits, followers }: Props) {
   const { active, best, busiest } = measure(days);
   const legend = [
     { icon: Calendar, k: "active days", v: `${active} / ${days.length}` },
@@ -32,7 +32,7 @@ export function Activity({ days, contributions, commits }: Props) {
   return (
     <Scene
       id="activity"
-      length={300}
+      length={180}
       marks={[
         [0.08, "2 1"],
         [0.92, "2 1"],
@@ -40,10 +40,14 @@ export function Activity({ days, contributions, commits }: Props) {
       innerClassName="flex flex-col justify-between px-5 pb-8 pt-24 md:px-10 md:pt-28"
     >
       <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-        <div data-range="0.06,0.93">
+        <div data-range="0.04,0.95">
           <div className="flex items-center gap-3 font-mono text-[13px] text-mute">
             <GitHub className="size-4 text-paper" />
             github.com/crynta
+            <span className="text-faint">·</span>
+            <span>
+              <span className="text-paper">{fmt(followers)}</span> followers
+            </span>
           </div>
           <p className="mt-5 text-[clamp(64px,10vw,168px)] font-semibold leading-[0.84] tracking-[-0.065em] tabular-nums">
             <span data-tally={contributions}>{fmt(contributions)}</span>
@@ -52,7 +56,7 @@ export function Activity({ days, contributions, commits }: Props) {
         </div>
 
         <div
-          data-range="0.12,0.93"
+          data-range="0.08,0.95"
           className="hidden w-full max-w-[520px] overflow-hidden rounded-2xl border border-line bg-ink/55 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)] backdrop-blur-xl md:block"
         >
           <div className="flex items-center justify-between border-b border-line px-4 py-3 font-mono text-[12px]">
@@ -75,7 +79,7 @@ export function Activity({ days, contributions, commits }: Props) {
         </div>
       </div>
 
-      <div data-range="0.18,0.93" className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div data-range="0.12,0.95">
         <dl className="flex flex-wrap gap-x-9 gap-y-3 font-mono text-[13px]">
           {legend.map(({ icon: I, k, v }) => (
             <div key={k} className="flex items-center gap-2.5">
@@ -85,12 +89,6 @@ export function Activity({ days, contributions, commits }: Props) {
             </div>
           ))}
         </dl>
-        <p className="flex items-center gap-2 font-mono text-[12px] text-faint">
-          <span className="inline-block h-3 w-[5px] rounded-[1px] bg-paper/70" />
-          one column per week
-          <span className="ml-2 inline-block h-3 w-[5px] rounded-[1px] bg-signal" />
-          the busiest
-        </p>
       </div>
     </Scene>
   );

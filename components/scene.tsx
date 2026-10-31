@@ -35,11 +35,13 @@ export function Scene({ id, length, marks = [], className = "", innerClassName =
       });
       tl.set({}, {}, 1); // the timeline spans exactly the scene
       const fade = 0.07;
+      // Blur is costly on phones; there the frame only fades and lifts.
+      const soft = window.matchMedia("(pointer: fine)").matches ? 10 : 0;
       for (const item of items) {
         const [from, to] = (item.dataset.range ?? "0,1").split(",").map(Number);
         const delay = Number(item.dataset.delay ?? 0);
-        gsap.set(item, { opacity: 0, y: 22, filter: "blur(10px)" });
-        tl.to(item, { opacity: 1, y: 0, filter: "blur(0px)", duration: fade }, Math.min(from + delay, 1 - fade));
+        gsap.set(item, { opacity: 0, y: 22, filter: soft ? `blur(${soft}px)` : "none" });
+        tl.to(item, { opacity: 1, y: 0, filter: soft ? "blur(0px)" : "none", duration: fade }, Math.min(from + delay, 1 - fade));
         // Numbers count up with the scroll as they arrive.
         for (const tally of item.querySelectorAll<HTMLElement>("[data-tally]")) {
           const target = Number(tally.dataset.tally);
@@ -57,7 +59,7 @@ export function Scene({ id, length, marks = [], className = "", innerClassName =
           );
         }
         if (to <= 1) {
-          tl.to(item, { opacity: 0, y: -22, filter: "blur(10px)", duration: fade, ease: "power2.in" }, Math.max(to - fade, 0));
+          tl.to(item, { opacity: 0, y: -22, filter: soft ? `blur(${soft}px)` : "none", duration: fade, ease: "power2.in" }, Math.max(to - fade, 0));
         }
       }
     }, el);

@@ -6,10 +6,12 @@ Crynta's personal site. Next.js 16 (Cache Components), Tailwind 4, Three.js with
 - `pnpm dev`: run locally
 - `pnpm build`: production build (the page is static and revalidates hourly)
 - `node scripts/snapshot.mjs`: refresh `lib/data/github.json` (contributions,
-  stars, downloads, latest commits) from GitHub. Needs `gh` signed in. Run it before a deploy
+  stars, downloads, latest commits, followers) from GitHub, and the YouTube
+  channel (subscribers, videos, views) from its public feed. Needs `gh` signed in. Run it before a deploy
   to keep the contribution skyline and download counts current.
 
-Stars and the latest commits are also read live, once an hour. On Vercel, set `GITHUB_TOKEN` (any
+Stars, followers, the latest commits and the YouTube channel are also read
+live, once an hour. On Vercel, set `GITHUB_TOKEN` (any
 read-only token) so those reads are not rate-limited; without it the site
 falls back to the snapshot.
 

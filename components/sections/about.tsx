@@ -20,6 +20,8 @@ const before = ["Fintech", "AI startups", "Metadata editor for photographers"];
 export function About() {
   return (
     <section id="stack" className="relative px-5 pb-[12svh] pt-[16svh] md:px-10">
+      <i aria-hidden data-field="3 0" className="absolute left-0 top-[25%] h-0 w-0" />
+      <i aria-hidden data-field="3 0.55" className="absolute bottom-0 left-0 h-0 w-0" />
       <h2 data-fade className="mb-14 text-[clamp(44px,5vw,76px)] font-semibold leading-none tracking-[-0.055em]">
         Stack
       </h2>

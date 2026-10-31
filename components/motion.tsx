@@ -57,7 +57,10 @@ const format = (value: number) => Math.round(value).toLocaleString("en-US");
 export function Motion() {
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const lenis = reduced ? null : new Lenis({ lerp: 0.085, wheelMultiplier: 0.95 });
+    // Touch keeps the system's own scrolling: smoothing it only fights the finger.
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    const lenis = reduced || !fine ? null : new Lenis({ lerp: 0.1, wheelMultiplier: 1.05 });
     if (lenis) {
       window.__lenis = lenis;
       lenis.on("scroll", ScrollTrigger.update);

@@ -24,6 +24,7 @@ export function Palette() {
       { group: "go to", title: "Activity", hint: "#activity", run: go("activity") },
       { group: "go to", title: "Terax", hint: "#terax", run: go("terax") },
       { group: "go to", title: "Zephium", hint: "#zephium", run: go("zephium") },
+      { group: "go to", title: "YouTube", hint: "#youtube", run: go("youtube") },
       { group: "go to", title: "Stack", hint: "#stack", run: go("stack") },
       { group: "go to", title: "Contact", hint: "#contact", run: go("contact") },
       {

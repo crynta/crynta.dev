@@ -9,6 +9,7 @@ import { Contact } from "@/components/sections/contact";
 import { Hero } from "@/components/sections/hero";
 import { Identity } from "@/components/sections/identity";
 import { Terax } from "@/components/sections/terax";
+import { YouTube } from "@/components/sections/youtube";
 import { Zephium } from "@/components/sections/zephium";
 import { getStats } from "@/lib/github";
 
@@ -21,9 +22,10 @@ export default async function Home() {
       <main className="relative z-10">
         <Hero />
         <Identity />
-        <Activity days={stats.days} contributions={stats.contributions} commits={stats.commits} />
+        <Activity days={stats.days} contributions={stats.contributions} commits={stats.commits} followers={stats.followers} />
         <Terax stars={stats.terax.stars} downloads={stats.terax.downloads} forks={stats.terax.forks} />
         <Zephium stars={stats.zephium.stars} downloads={stats.zephium.downloads} forks={stats.zephium.forks} />
+        <YouTube subscribers={stats.youtube.subscribers} videos={stats.youtube.videos} />
         <About />
         <Contact />
       </main>

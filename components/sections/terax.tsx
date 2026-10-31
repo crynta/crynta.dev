@@ -15,16 +15,17 @@ export function Terax({ stars, downloads, forks }: Props) {
   return (
     <Scene
       id="terax"
-      length={460}
+      length={280}
       marks={[
-        [0.06, "3 1"],
-        [0.4, "3 1"],
-        [0.6, "5 1"],
-        [1, "5 1"],
+        [0.04, "3 1"],
+        [0.3, "3 1"],
+        [0.52, "5 1"],
+        [0.84, "5 1"],
+        [0.98, "5 0"],
       ]}
       innerClassName="flex items-center px-5 md:px-10"
     >
-      <div data-range="0.05,0.42" className="relative z-10 w-full max-w-[33rem]">
+      <div data-range="0.03,0.32" className="relative z-10 w-full max-w-[33rem]">
         <div className="mb-9 flex items-end gap-6">
           <AppIcon src="/work/terax-logo.png" size={104} />
           <div>
@@ -57,13 +58,13 @@ export function Terax({ stars, downloads, forks }: Props) {
         </div>
       </div>
 
-      <p data-range="0.1,0.42" className="absolute bottom-8 right-5 hidden items-center gap-2 font-mono text-[12px] text-faint md:right-10 md:flex">
+      <p data-range="0.06,0.32" className="absolute bottom-8 right-5 hidden items-center gap-2 font-mono text-[12px] text-faint md:right-10 md:flex">
         <Star className="size-3.5" />
         {fmt(stars)} points, one for every star
       </p>
 
       {/* Laid out in exactly the box the field draws the picture in. */}
-      <div data-range="0.74,0.97" className="pointer-events-none absolute inset-0 grid place-items-center">
+      <div data-range="0.53,0.93" className="pointer-events-none absolute inset-0 grid place-items-center">
         <div className="relative aspect-[2400/1320] w-[min(86vw,calc(74svh*1.818))] overflow-hidden rounded-[10px] shadow-[0_0_0_1px_rgb(242_239_232/0.1),0_60px_160px_-40px_rgb(0_0_0/0.95)]">
           <Image
             src="/work/terax-terminal.jpg"

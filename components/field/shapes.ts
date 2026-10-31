@@ -170,8 +170,8 @@ export function avatarShapes(count: number, image: HTMLImageElement, font: strin
   const withName = new Float32Array(count * 3);
   // Thin strokes need fewer points than the name's heavy letters.
   const forFormula = Math.floor(count * 0.5);
-  scatter(withName, 0, forFormula, formula, 1.75, 0.78, random);
-  scatter(withName, forFormula, count - forFormula, name, 0.82, -1.12, random);
+  scatter(withName, 0, forFormula, formula, 1.7, 1.02, random);
+  scatter(withName, forFormula, count - forFormula, name, 0.8, -0.86, random);
   const alone = new Float32Array(count * 3);
   scatter(alone, 0, count, formula, 1.6, 0, random);
   return { withName, alone };

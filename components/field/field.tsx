@@ -22,7 +22,7 @@ export function Field({ days, stars }: Props) {
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const small = window.matchMedia("(max-width: 760px)").matches;
-    const side = small ? 110 : 150;
+    const side = small ? 100 : 150;
     const count = side * side;
 
     let renderer: THREE.WebGLRenderer;
@@ -32,7 +32,7 @@ export function Field({ days, stars }: Props) {
       element.dataset.failed = "";
       return;
     }
-    const dpr = Math.min(window.devicePixelRatio, small ? 1.5 : 2);
+    const dpr = Math.min(window.devicePixelRatio, small ? 1.25 : 2);
     renderer.setPixelRatio(dpr);
     renderer.setClearColor(0x000000, 1);
     element.appendChild(renderer.domElement);
@@ -93,7 +93,14 @@ export function Field({ days, stars }: Props) {
     composer.addPass(
       new EffectPass(
         camera,
-        new BloomEffect({ intensity: 0.95, luminanceThreshold: 0.32, luminanceSmoothing: 0.25, mipmapBlur: true, radius: 0.6 }),
+        new BloomEffect({
+          intensity: 0.95,
+          luminanceThreshold: 0.32,
+          luminanceSmoothing: 0.25,
+          mipmapBlur: true,
+          radius: 0.6,
+          resolutionScale: small ? 0.4 : 0.6,
+        }),
         new VignetteEffect({ offset: 0.32, darkness: 0.62 }),
       ),
     );
@@ -156,9 +163,17 @@ export function Field({ days, stars }: Props) {
       return { from: last.phase, to: last.phase, mix: 0, opacity: last.opacity };
     };
 
+    // The canvas is as tall as the largest viewport (100lvh), so a phone's
+    // address bar sliding in and out never resizes it; only a width change does.
+    let lastWidth = 0;
     const resize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      const w = element.clientWidth;
+      const h = element.clientHeight;
+      if (w === lastWidth && small) {
+        measure();
+        return;
+      }
+      lastWidth = w;
       renderer.setSize(w, h, false);
       composer.setSize(w, h);
       camera.aspect = w / h;
@@ -250,5 +265,5 @@ export function Field({ days, stars }: Props) {
     };
   }, [days, stars]);
 
-  return <div ref={host} aria-hidden className="pointer-events-none fixed inset-0 z-0 [&>canvas]:block [&>canvas]:h-full [&>canvas]:w-full" />;
+  return <div ref={host} aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-0 h-lvh [&>canvas]:block [&>canvas]:h-full [&>canvas]:w-full" />;
 }

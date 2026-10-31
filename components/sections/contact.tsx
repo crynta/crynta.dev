@@ -24,10 +24,10 @@ export function Contact() {
   return (
     <Scene
       id="contact"
-      length={190}
+      length={140}
       marks={[
-        [0, "3 0"],
-        [0.32, "4 1"],
+        [0, "3 0.75"],
+        [0.4, "4 1"],
         [1, "4 1"],
       ]}
       innerClassName="flex flex-col justify-between px-5 pb-7 pt-28 md:px-10"

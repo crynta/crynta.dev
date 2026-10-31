@@ -35,22 +35,43 @@ export function Zephium({ stars, downloads, forks }: Props) {
         .fromTo("[data-title]", { opacity: 0, scale: 0.9, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, 0.3)
         .to("[data-title]", { opacity: 0, yPercent: -80, filter: "blur(10px)", duration: 0.14, ease: "power2.in" }, 0.58)
         .fromTo("[data-browser]", { yPercent: 105, scale: 0.9 }, { yPercent: 0, scale: 1, duration: 0.32, ease: "power3.out" }, 0.5);
+
+      // Back into the dark: the whole light section dims as it leaves, so there
+      // is no band to cross, and the nav turns light again halfway.
+      const more = el.querySelector<HTMLElement>("#zephium-more")!;
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: more,
+            start: "bottom 95%",
+            end: "bottom 35%",
+            scrub: true,
+            onUpdate: (self) => {
+              if (self.progress > 0.5) delete more.dataset.light;
+              else more.dataset.light = "";
+            },
+          },
+        })
+        .to(more, { backgroundColor: "#050506", ease: "power1.inOut" }, 0)
+        .to(more.querySelectorAll(":scope > :not([data-edge])"), { opacity: 0, ease: "power1.in" }, 0);
     }, el);
     return () => ctx.revert();
   }, []);
 
   return (
     <div ref={root}>
-      <Scene id="zephium" length={380} marks={[[0.22, "5 0"]]} className="z-10">
+      <Scene id="zephium" length={260} marks={[[0.22, "5 0"]]} className="z-10">
         <div data-open className="absolute inset-0 [--r:0%] [mask-image:radial-gradient(circle_at_50%_55%,#000_var(--r),transparent_calc(var(--r)+22%))]">
           <div data-sky className="absolute inset-0 origin-[50%_60%]">
             <Image src="/work/sky-day.jpg" alt="" fill sizes="100vw" className="object-cover" priority={false} />
           </div>
+          {/* The bottom of the sky becomes the light the page carries on in. */}
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-[38svh] bg-[linear-gradient(to_bottom,rgb(248_248_248/0),rgb(248_248_248/0.85)_55%,#f8f8f8)]" />
           <div data-fog aria-hidden className="absolute inset-0 origin-[30%_55%] opacity-0">
             <Image src="/work/sky-day-small.jpg" alt="" fill sizes="50vw" className="object-cover blur-[22px] brightness-[1.15] saturate-50" />
           </div>
-          <div data-title className="absolute inset-x-0 top-[17svh] flex items-center justify-center gap-[0.2em] text-[clamp(56px,9vw,150px)] font-semibold tracking-[-0.06em] text-white [text-shadow:0_8px_40px_rgb(20_60_140/0.35)]">
-            <Image src="/work/zephium-logo.png" alt="" width={192} height={192} className="size-[0.86em] rounded-[22.5%] shadow-[0_20px_50px_-10px_rgb(20_50_120/0.5)]" />
+          <div data-title className="absolute inset-x-0 top-[17svh] flex items-center justify-center gap-[0.2em] text-[clamp(56px,9vw,150px)] font-semibold tracking-[-0.06em] text-white">
+            <Image src="/work/zephium-logo.png" alt="" width={192} height={192} className="size-[0.86em] rounded-[22.5%]" />
             <h2 className="leading-none">Zephium</h2>
           </div>
           <div data-browser className="absolute inset-x-0 bottom-[30svh] flex justify-center px-3 md:bottom-[5svh]">
@@ -67,8 +88,10 @@ export function Zephium({ stars, downloads, forks }: Props) {
         </div>
       </Scene>
 
-      <section id="zephium-more" data-light className="relative bg-[#f8f8f8] px-5 pb-[40svh] pt-[16svh] text-ink md:px-10">
-        <div className="grid gap-16 lg:grid-cols-[minmax(0,30rem)_1fr] lg:gap-20">
+      <section id="zephium-more" data-light className="relative bg-[#f8f8f8] px-5 pb-[22svh] pt-[16svh] text-ink md:px-10">
+        {/* The edge into the dark is always soft, whatever shade the section has reached. */}
+        <div data-edge aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[26svh] bg-gradient-to-b from-transparent to-ink" />
+        <div className="relative grid gap-16 lg:grid-cols-[minmax(0,30rem)_1fr] lg:gap-20">
           <div>
             <div data-fade className="mb-9 flex items-end gap-6">
               <AppIcon src="/work/zephium-logo.png" size={104} tone="light" />
@@ -118,8 +141,6 @@ export function Zephium({ stars, downloads, forks }: Props) {
             <figcaption className="mt-4 font-mono text-[12px] text-ink/45">work</figcaption>
           </figure>
         </div>
-        {/* Back into the dark. */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[34svh] bg-[linear-gradient(to_bottom,transparent,rgb(5_5_6/0.35)_35%,rgb(5_5_6/0.85)_70%,#050506)]" />
       </section>
     </div>
   );
